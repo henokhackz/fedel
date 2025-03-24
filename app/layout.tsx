@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/context/theme-provider";
+import { Sub } from "@radix-ui/react-dropdown-menu";
+
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext", "greek", "greek-ext", "vietnamese"],
@@ -34,8 +36,10 @@ export default function GlobalLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-          >
-            {children}
+            >
+            
+             {children}
+          
           </ThemeProvider>
       </body>
     </html>

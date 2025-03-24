@@ -24,7 +24,6 @@ export default function NavbarIcons() {
     <DropdownMenu>
       <DropdownMenuTrigger>
       <Button
-        variant="primary"
         className="flex items-center gap-2 p-2 bg-stone-800 hover:bg-stone-700 dark:bg-stone-700 dark:hover:bg-stone-600 text-white font-semibold px-4 py-2 rounded-full transition-all duration-300"
       >
         <User size={20} className='text-stone-50'/>

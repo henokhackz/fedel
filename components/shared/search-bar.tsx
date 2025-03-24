@@ -19,14 +19,14 @@ export function SearchBar() {
     <form
       action={'/search'}
       method="GET"
-      className="flex w-full max-w-lg items-center space-x-3 px-4 py-2 bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-full border border-gray-300 dark:border-gray-700 shadow-md"
+      className="flex w-full max-w-lg items-center space-x-3 px-4 py-2 bg-gradient-to-r from-stone-100 to-gray-50 dark:from-stone-800 dark:via-stone-900 dark:to-stone-800 rounded-full border border-stone-300 dark:border-stone-700"
     >
       {/* Search Input */}
       <Input
         type="text"
         name="query"
         placeholder="Search movies & shows..."
-        className="flex-1 bg-transparent border-none outline-none text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 h-full ring-0 focus:ring-0 shadow-none"
+        className="flex-1  border-none outline-none text-stone-800 dark:text-stone-200 placeholder-stone-400 dark:placeholder-stone-500 h-full ring-0 focus:ring-0 shadow-none bg-transparent"
         required
       />
       
@@ -36,7 +36,7 @@ export function SearchBar() {
           <SelectValue>{selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1)}</SelectValue>
           <ChevronDown size={20} />
         </SelectTrigger>
-        <SelectContent className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md shadow-lg">
+        <SelectContent className="bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 rounded-md">
           <SelectItem value="movies">Movies</SelectItem>
           <SelectItem value="series">Series</SelectItem>
         </SelectContent>
@@ -47,8 +47,8 @@ export function SearchBar() {
 
       {/* Search Button */}
       <Button
-        type="submit"
-        className="bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded-full transition-all duration-300 h-full shadow-md"
+         variant="primary"
+        className="flex items-center gap-2 p-2 bg-stone-800 dark:text-stone-50 hover:bg-stone-700 dark:bg-stone-700 dark:hover:bg-stone-600 text-white dark:hover:text-stone-50 cursor-pointer font-semibold px-4 py-2 rounded-full transition-all duration-300"
       >
         Search
       </Button>

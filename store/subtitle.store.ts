@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export type Subtitle = {
+  id: string;
   name: string;
   subtitle: string;
   type: "movie" | "series";
@@ -23,16 +24,20 @@ export const useSubtitleStore = create<SubtitleActions & { subtitle: Subtitle[] 
     (set) => ({
       subtitle: defaultInitState,
       addSubtitle: (subtitle: Subtitle) =>
-        set((state) => ({ subtitle: [...state.subtitle, subtitle] })),
+        set((state) => {
+          const exists = state.subtitle.some((s) => s.subtitle === subtitle.subtitle);
+          if (exists) return state;
+          return { subtitle: [...state.subtitle, subtitle] };
+        }),
       updateSubtitle: (subtitle: Subtitle) =>
         set((state) => ({
           subtitle: state.subtitle.map((s) =>
-            s.name === subtitle.name ? subtitle : s
+            s.id === subtitle.id ? subtitle : s
           ),
         })),
-      removeSubtitle: (name: string) =>
+      removeSubtitle: (id: string) =>
         set((state) => ({
-          subtitle: state.subtitle.filter((s) => s.name !== name),
+          subtitle: state.subtitle.filter((s) => s.id !== id),
         })),
     }),
     { name: 'subtitle' }

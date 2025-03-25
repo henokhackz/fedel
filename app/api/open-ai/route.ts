@@ -25,6 +25,7 @@ Return a well-structured JSON object with categories like Vocabulary, Phrasal Ve
 Ensure the JSON format follows this structure:
 
 {
+   "id":"random-uuid",
   "lessonTitle": "English from Movies - Learning with Subtitles",
   "level": "Intermediate",
   "description": "This lesson extracts vocabulary, phrasal verbs, idioms, and grammar from real conversations in movies or TV shows.",
@@ -66,7 +67,9 @@ Return only the JSON format, nothing else.`
         // Generate content using Gemini
         const result = await model.generateContent(prompt);
         const responseText = await result.response.text();
-        const cleanedText = responseText.replace(/^```.*\n|\n```$/g, "");
+        const cleanedText = responseText.trim().replace(/^```(\w+)?\n|```$/g, "");
+
+
 
         console.log("Generated lesson:", responseText);
 

@@ -1,16 +1,18 @@
 'use client'
 
-
+import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSubtitleStore } from "@/store/subtitle.store";
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
 
 export default function SubtitleUploader() {
   const [file, setFile] = useState<File | null>(null);
   const [cleanedSubtitle, setCleanedSubtitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const addSubtitle = useSubtitleStore((state) => state.addSubtitle)
+  const addSubtitle = useSubtitleStore((state) => state.addSubtitle);
 
   const router = useRouter();
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,18 +46,22 @@ export default function SubtitleUploader() {
       }
 
       const data = await res.json();
+      console.log(data, 'data');
       setCleanedSubtitle(data.cleanedSubtitle);
+
+
       const subtitleData = {
+        id: uuidv4(),
         name: 'social network',
         subtitle: data.cleanedSubtitle,
         type: "movie" as "movie",
         image: '/The_Social_Network_film_poster.png'
       }
-            
-      addSubtitle(subtitleData)
-       
-      console.log("Cleaned subtitle:", data.cleanedSubtitle);
-      router.push('/lesson');
+
+      if(data && data.cleanedSubtitle) {
+        addSubtitle(subtitleData);
+        console.log("Cleaned subtitle:", data.cleanedSubtitle);
+      }  
     } catch (err: any) {
       console.error("Upload error:", err);
       setError(err.message || "File upload failed. Please try again.");
@@ -65,7 +71,7 @@ export default function SubtitleUploader() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 rounded-lg shadow h-full" >
+    <div className="max-w-md mx-auto p-4 rounded-lg shadow-md">
       <h2 className="text-xl font-bold mb-4">Subtitle Processor</h2>
       
       <div className="mb-4">
@@ -87,13 +93,23 @@ export default function SubtitleUploader() {
         </div>
       )}
       
-      <button 
-        onClick={handleUpload}
-        disabled={isLoading || !file}
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded disabled:opacity-50"
-      >
-        {isLoading ? "Processing..." : "Upload & Process"}
-      </button>
+      {!cleanedSubtitle ? (
+        <Button
+          onClick={handleUpload}
+          disabled={isLoading || !file}
+          className="w-full bg-stone-900 hover:bg-stone-800 text-white font-medium py-2 px-4 rounded disabled:opacity-50"
+        >
+          {isLoading ? "Processing..." : "Upload & Process"}
+        </Button>
+      ) : (
+        <Button
+          onClick={() => router.push('/lesson')}
+          variant="outline"
+          className="w-full mt-2"
+        >
+          Go to Lesson Generator <ChevronRight size={20} className="ml-2 cursor-pointer" />
+        </Button>
+      )}
     </div>
   );
 }

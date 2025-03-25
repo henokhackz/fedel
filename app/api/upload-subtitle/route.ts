@@ -1,7 +1,10 @@
+
 import { NextRequest } from 'next/server';
 import { Readable } from 'stream';
 import { createWriteStream, readFileSync } from 'fs';
 import { mkdir, unlink } from 'fs/promises';
+
+
 import path from 'path';
 import Busboy from 'busboy';
 import { cleanSubtitle } from '@/lib/utils';
@@ -39,6 +42,7 @@ export async function POST(req: NextRequest) {
         try {
           const subtitleContent = readFileSync(filePath, 'utf-8');
           console.log('Raw subtitle content:', subtitleContent);
+        
           const cleanedSubtitle = cleanSubtitle(subtitleContent);
 
           await unlink(filePath); 
@@ -61,3 +65,4 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
   }
 }
+

@@ -19,6 +19,11 @@ export default function SubtitleList() {
   const {addLesson} = useLessonStore((state) => state);
   const router = useRouter();
 
+
+  console.log(subtitle, 'subtitle');
+
+  console.log(generatedLesson, 'generated lesson');
+
   type MovieData = {
     name: string;
     image: string | null;
@@ -47,11 +52,12 @@ export default function SubtitleList() {
       const data = await res.json();
       setGeneratedLesson(data);
       setError(null);
-
+      console.log(data, 'data');
       if(data) {
         addLesson(data);
         console.log(data, 'data');
-        router.push(`/lesson/${data.lessonTitle}`);
+
+        router.push(`/lesson/${data.id}`);
       }
 
       console.log("Generated lesson:", data);
@@ -86,7 +92,7 @@ export default function SubtitleList() {
         <div className="grid gap-6 md:grid-cols-2 border border-gray-300 dark:border-gray-600 p-4 rounded-lg">
           {subtitle.map((subtitleItem) => (
             <motion.div
-              key={subtitleItem.name}
+              key={subtitleItem.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}

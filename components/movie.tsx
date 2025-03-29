@@ -1,5 +1,10 @@
+'use client'
 import { cn } from "@/lib/utils"
+import { SubtitleData } from "@/type"
 import Image from "next/image"
+import { useState } from "react"
+import { useSubtitleStore } from "@/store/subtitle.store"
+import { useRouter } from "next/navigation"
 
 type MovieData = {
     Title: string
@@ -7,16 +12,49 @@ type MovieData = {
     Genre: string
     Plot: string
     Poster: string
+    imdbID: string
     imdbRating: string
     Response: string
 }
 
 type MovieProps = React.ComponentProps<"div"> & {
-    movie: MovieData
+    movie: MovieData,
+    setSelectedMovie: (movie: MovieData) => void    
 }
 
-export function Movie({ className, movie, ...props }: MovieProps) {
+
+
+export function Movie({ className, movie,setSelectedMovie , ...props }: MovieProps) {
+    const router = useRouter();
+   
+    const {addSubtitle} = useSubtitleStore();
+    
+    
     const moviePoster = movie.Poster !== "N/A" ? movie.Poster : "/placeholder.jpg"
+    const handleGenerateLesson = async () => {
+        
+        const  res = await fetch("/api/subtitle", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ omdbId: movie.imdbID }),
+        });
+
+
+        if (!res.ok) {
+            throw new Error(`Failed to generate lesson: ${res.status}`);
+        }   
+
+        const {subtitle: data} = await res.json();
+        addSubtitle(data);
+        console.log(data, 'data', data.id);
+        router.push(`/subtitle/${data.id}`);
+
+            }
+
+     
+
 
     return (
         <div
@@ -25,6 +63,7 @@ export function Movie({ className, movie, ...props }: MovieProps) {
                 className
             )}
             {...props}
+            onClick={() => setSelectedMovie(movie)}
         >
             <Image
                 src={moviePoster}
@@ -39,7 +78,7 @@ export function Movie({ className, movie, ...props }: MovieProps) {
                 <p className="text-sm text-gray-300">{movie.Year} • {movie.Genre}</p>
                 <p className="text-xs mt-1 line-clamp-2">{movie.Plot}</p>
                 <div className="mt-2 flex items-center justify-between">
-                    <button className="px-3 py-1 text-sm bg-white text-black rounded-full shadow-md hover:bg-gray-200 transition">
+                    <button onClick={handleGenerateLesson} className="px-3 py-1 text-sm bg-white text-black rounded-full shadow-md hover:bg-gray-200 transition">
                         Generate Lesson
                     </button>
                 </div>

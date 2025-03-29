@@ -7,7 +7,7 @@ import { useSubtitleStore } from "@/store/subtitle.store";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 
-export default function SubtitleUploader({setOpen}: {setOpen: React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function SubtitleUploader({setOpen}: {setOpen: (open: boolean) => void}) {
   const [file, setFile] = useState<File | null>(null);
   const [cleanedSubtitle, setCleanedSubtitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -108,7 +108,7 @@ export default function SubtitleUploader({setOpen}: {setOpen: React.Dispatch<Rea
           variant={"outline"}
           className="w-full cursor-pointer"
         >
-          Close
+          Cancel
           </Button>
           </div>
       ) : (

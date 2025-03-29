@@ -2,7 +2,7 @@
 
 import { useLessonStore } from '@/store/lesson.store';
 import { Progress } from "@/components/ui/progress";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Celebration from '@/components/celebration';
 import { useRouter } from 'next/navigation';
@@ -74,7 +74,7 @@ export default function Vocabulary() {
         ? ((currentIndex + 1) / idioms.length) * 100
         : 0;
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (isCompleted) {
             const timer = setTimeout(() => {
                 router.push(`/lesson/${lesson.id}/slang`);

@@ -15,7 +15,7 @@ export default function NavbarIcons() {
   return (
   <div className="flex gap-4 items-center">
     <div className="flex items-center gap-2">
-    <div className="flex items-center justify-center gap-2 p-2 rounded-full cursor-pointer hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+    <div className="flex items-center justify-center gap-2 p-2 rounded-full cursor-pointertransition-colors">
       <Bell size={20} className="text-stone-800 dark:stroke-stone-50" />
     </div>
     <ModeToggle />

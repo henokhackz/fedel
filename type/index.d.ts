@@ -8,7 +8,7 @@ export type Lesson = {
   };
   
   type Categories = {
-    Grammar: GrammarTopic[];
+    Grammar: GrammarTopic;
     Idioms: Idiom[];
     PhrasalVerbs: PhrasalVerb[];
     Quiz: Quiz;
@@ -19,34 +19,51 @@ export type Lesson = {
   type GrammarTopic = {
     topic: string;
     explanation: string;
-    examples: string[];
+    examples: string[ {
+      ruleApplied: string;
+      sentence: string;
+    }];
+    isCompleted?:boolean = false
   };
   
   type Idiom = {
     idiom: string;
     meaning: string;
     example: string;
+    isCompleted?:boolean = false
   };
   
   type PhrasalVerb = {
-    phrasalVerb: string;
+    phrase: string;
     meaning: string;
     example: string;
+    isCompleted:boolean = false
+
   };
   
   type Quiz = {
-    questions: string[];
+    questions: string[{
+      question: string;
+      options: string[];
+      answer: string;
+    }];
+    isCompleted?:boolean = false;
+
   };
   
   type Slang = {
     slang: string;
     meaning: string;
     example: string;
+    isCompleted?:boolean = false
   };
   
   type Vocabulary = {
     word: string;
     meaning: string;
     example: string;
+    isCompleted?:boolean = false
+    
+
   };
   

@@ -7,7 +7,7 @@ import { useSubtitleStore } from "@/store/subtitle.store";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 
-export default function SubtitleUploader() {
+export default function SubtitleUploader({setOpen}: {setOpen: React.Dispatch<React.SetStateAction<boolean>>}) {
   const [file, setFile] = useState<File | null>(null);
   const [cleanedSubtitle, setCleanedSubtitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -71,7 +71,7 @@ export default function SubtitleUploader() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-4 rounded-lg shadow-md bg-stone-50">
       <h2 className="text-xl font-bold mb-4">Subtitle Processor</h2>
       
       <div className="mb-4">
@@ -94,6 +94,7 @@ export default function SubtitleUploader() {
       )}
       
       {!cleanedSubtitle ? (
+        <div className="flex flex-col gap-2">
         <Button
           onClick={handleUpload}
           disabled={isLoading || !file}
@@ -101,6 +102,15 @@ export default function SubtitleUploader() {
         >
           {isLoading ? "Processing..." : "Upload & Process"}
         </Button>
+        <Button
+          onClick={() => setOpen(false)}
+          disabled={isLoading || !file}
+          variant={"outline"}
+          className="w-full cursor-pointer"
+        >
+          Close
+          </Button>
+          </div>
       ) : (
         <Button
           onClick={() => router.push('/lesson')}
@@ -109,6 +119,7 @@ export default function SubtitleUploader() {
         >
           Go to Lesson Generator <ChevronRight size={20} className="ml-2 cursor-pointer" />
         </Button>
+        
       )}
     </div>
   );

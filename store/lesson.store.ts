@@ -1,7 +1,6 @@
 import { Lesson } from '@/type';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import {v4 as uuid  } from 'uuid';
 
 
 
@@ -21,7 +20,7 @@ export const useLessonStore = create<LessonActions & { lessons: Lesson[] }>()(
   persist(
     (set) => ({
       lessons: defaultInitState,
-      addLesson: (lesson) => set((state) => ({ lessons: [...state.lessons, { ...lesson, id: uuid() } ] })),
+      addLesson: (lesson) => set((state) => ({ lessons: [...state.lessons, { ...lesson} ] })),
       updateLesson: (lesson) => set((state) => ({ lessons: state.lessons.map((l) => (l.id === lesson.id ? lesson : l)) })),
       removeLesson: (id) => set((state) => ({ lessons: state.lessons.filter((l) => l.id !== id) })),
     }),

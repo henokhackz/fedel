@@ -29,7 +29,7 @@ export default function GlobalLayout({
   return (
     <html lang="en"  suppressHydrationWarning>
       <body
-        className={`${notoSans.variable} ${notoSerif.variable} antialiased bg-gradient-to-r from-stone-50 to-stone-100 dark:from-stone-800 dark:to-stone-900`}
+        className={`${notoSans.variable} ${notoSerif.variable} antialiased bg-gradient-to-r from-stone-100 to-stone-200 dark:from-stone-800 dark:to-stone-900`}
       >
        <ThemeProvider
             attribute="class"

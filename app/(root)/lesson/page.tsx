@@ -13,26 +13,14 @@ import { useRouter } from "next/navigation";
 
 export default function SubtitleList() {
   const { subtitle, removeSubtitle } = useSubtitleStore((state) => state);
-  const [loading, setLoading] = useState(false);
+  const [loadingSubtitleId, setLoadingSubtitleId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [generatedLesson, setGeneratedLesson] = useState<Lesson | null>(null);
-  const {addLesson} = useLessonStore((state) => state);
+  const { addLesson } = useLessonStore((state) => state);
   const router = useRouter();
 
-
-  console.log(subtitle, 'subtitle');
-
-  console.log(generatedLesson, 'generated lesson');
-
-  type MovieData = {
-    name: string;
-    image: string | null;
-    subtitle: string;
-    type: "movie" | "series";
-  };
-
-  const handleGenerateLesson = async (subtitleItem: MovieData) => {
-    setLoading(true);
+  const handleGenerateLesson = async (subtitleItem: { id: string; name: string; image: string | null; subtitle: string; type: "movie" | "series" }) => {
+    setLoadingSubtitleId(subtitleItem.id);
     setError(null);
 
     try {
@@ -52,20 +40,16 @@ export default function SubtitleList() {
       const data = await res.json();
       setGeneratedLesson(data);
       setError(null);
-      console.log(data, 'data');
-      if(data) {
-        addLesson(data);
-        console.log(data, 'data');
 
+      if (data) {
+        addLesson(data);
         router.push(`/lesson/${data.id}`);
       }
-
-      console.log("Generated lesson:", data);
     } catch (error) {
       setError(`Error generating lesson: ${error instanceof Error ? error.message : "Unknown error"}`);
       console.error("Error generating lesson:", error);
     } finally {
-      setLoading(false);
+      setLoadingSubtitleId(null);
     }
   };
 
@@ -75,7 +59,9 @@ export default function SubtitleList() {
         <h1 className="text-5xl font-bold bg-gradient-to-r from-stone-800 to-stone-900 dark:bg-gradient-to-r dark:from-stone-50 dark:to-stone-100 bg-clip-text text-transparent">
           Welcome to Our World
         </h1>
-        <p className="text-lg bg-gradient-to-r from-stone-700 to-stone-800 dark:bg-gradient-to-r dark:from-stone-500 dark:to-stone-600 bg-clip-text text-transparent">You're almost there, just one step more</p>
+        <p className="text-lg bg-gradient-to-r from-stone-700 to-stone-800 dark:bg-gradient-to-r dark:from-stone-500 dark:to-stone-600 bg-clip-text text-transparent">
+          You're almost there, just one step more
+        </p>
       </div>
 
       {error && (
@@ -128,9 +114,9 @@ export default function SubtitleList() {
                     size="sm"
                     className="gap-1 rounded-full px-4 py-2 cursor-pointer bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-800"
                     onClick={() => handleGenerateLesson(subtitleItem)}
-                    disabled={loading} 
+                    disabled={loadingSubtitleId === subtitleItem.id}
                   >
-                    {loading ? (
+                    {loadingSubtitleId === subtitleItem.id ? (
                       <span>Generating...</span>
                     ) : (
                       <>
@@ -145,7 +131,6 @@ export default function SubtitleList() {
           ))}
         </div>
       )}
-
     </div>
   );
 }

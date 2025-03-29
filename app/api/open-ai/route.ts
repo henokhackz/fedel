@@ -34,7 +34,7 @@ Ensure the JSON format follows this structure:
     "Vocabulary": [  
       { "word": "Intriguing", "meaning": "Very interesting", "example": "The story was intriguing." }
     ],
-    "Phrasal Verbs": [  
+    "PhrasalVerbs": [  
       { "phrase": "Figure out", "meaning": "Find the solution", "example": "I need to figure out this problem." }
     ],
     "Idioms": [  

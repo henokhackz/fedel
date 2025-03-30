@@ -1,8 +1,10 @@
 'use client'
+import { useTokenStore } from '@/store/token.store';
 import React, { useEffect } from 'react'
 
 export default function useOsAuth() {
     const [token, setToken] = React.useState<string | null>(null);
+    const { setToken: updateToken } = useTokenStore((state) => state as { setToken: (token: string | null) => void });
     useEffect(() => {
         const authApp = async () => {
             const res = await fetch(
@@ -19,7 +21,8 @@ export default function useOsAuth() {
                 throw new Error(`Failed to generate lesson: ${res.status}`);
             }
             const data = await res.json();
-            setToken(data.token);
+            updateToken(data.token);
+
         };
         
         authApp();

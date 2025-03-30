@@ -3,20 +3,11 @@ import MovieDetails from '@/components/movies';
 import Modal from '@/components/shared/modal';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/loading';
+import Message from '@/components/ui/message';
 import UploadSubtitle from '@/components/upload-subtitle';
+import { MovieData } from '@/type';
 import { Plus } from 'lucide-react';
 import React, { use, useEffect, useState } from 'react';
-
-type MovieData = {
-    Title: string;
-    Year: string;
-    Genre: string;
-    Plot: string;
-    imdbID: string;
-    Poster: string;
-    imdbRating: string;
-    Response: string;
-};
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -26,15 +17,12 @@ const FetchMovies = (props: { searchParams:SearchParams}) => {
     const searchParams = use(props.searchParams);
     const query = searchParams.query as string;
     const type = searchParams.type as string | undefined;
-    const [open , setOpen] = useState(false);
-
-
-    console.log(open, "open");
-    
-    
-
     useEffect(() => {
         const fetchMovies = async () => {
+            if (!query) {
+                setError(' well come Please enter a search movies or series');
+                return;
+            }
             try {
                 const response = await fetch(
                    `api/search/?query=${query}&type=${type}`,
@@ -70,7 +58,9 @@ const FetchMovies = (props: { searchParams:SearchParams}) => {
     }, [query, type]);
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div className='w-full h-full flex justify-center items-center'>
+            <Message text={error} type='error'/>
+        </div>;
     }
 
     if (!movieData) {
@@ -81,25 +71,10 @@ const FetchMovies = (props: { searchParams:SearchParams}) => {
 
     return (
         <div className='w-full flex justify-center gap-4 h-full p-5 relative'>
-            <div className='w-full '>
+            <div className='w-full bg-stone-300 rounded-2xl p-5 dark:bg-stone-700 '>
                 <MovieDetails movieData={movieData} />
             </div>
-            <div className='flex flex-col space-y-4 absolute top-0 right-0 z-50 mb-4 '>
-                {
-                   open ? (
-                       <Modal open={open} setOpen={setOpen}>
-                           <UploadSubtitle setOpen={setOpen} />
-                       </Modal>
-                   ) : (
-                       <Button
-                           onClick={() => setOpen(!open)}
-                           className='bg-stone-700 dark:bg-stone-600 text-stone-50 dark:stone-100 hover:bg-stone-800 dark:hover:bg-stone-500'
-                       >
-                           <Plus className='text-stone-50 dark:text-stone-100' /> Upload Subtitle
-                       </Button>
-                   )
-                }
-            </div>
+            
         </div>
     );
 };
@@ -107,4 +82,4 @@ const FetchMovies = (props: { searchParams:SearchParams}) => {
 export default function SearchPage({ searchParams }: { searchParams: SearchParams }) {
     const searchParamsValue = use(searchParams);
     return <FetchMovies searchParams={searchParams} />;
-}    // Removed unused searchParamsValue
+}   

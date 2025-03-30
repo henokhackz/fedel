@@ -1,3 +1,4 @@
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
 You will receive subtitle text extracted from an SRT file. Analyze the text and extract important language learning elements.
 
 ### **Subtitle Content:**
-${subtitleItem.subtitle}
+${subtitleItem.cleanedSubtitle}
 
 ### **Output:**
 Return a well-structured JSON object with categories like Vocabulary, Phrasal Verbs, Idioms, Slang, Grammar, and Quiz. Each category must have at least 15-20 items.

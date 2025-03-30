@@ -1,35 +1,30 @@
 // src/stores/subtitle.store.ts
+import { SubtitleData } from '@/type';
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export type Subtitle = {
-  id: string;
-  name: string;
-  subtitle: string;
-  type: "movie" | "series";
-  image: string | null;
-};
+
 
 export type SubtitleActions = {
-  addSubtitle: (subtitle: Subtitle) => void;
-  updateSubtitle: (subtitle: Subtitle) => void;
+  addSubtitle: (subtitle: SubtitleData) => void;
+  updateSubtitle: (subtitle: SubtitleData) => void;
   removeSubtitle: (name: string) => void; 
-  subtitle: Subtitle[]; 
+  subtitle: SubtitleData[]; 
 };
 
-export const defaultInitState: Subtitle[] = [];
+export const defaultInitState: SubtitleData[] = [];
 
-export const useSubtitleStore = create<SubtitleActions & { subtitle: Subtitle[] }>()(
+export const useSubtitleStore = create<SubtitleActions & { subtitle: SubtitleData[] }>()(
   persist(
     (set) => ({
       subtitle: defaultInitState,
-      addSubtitle: (subtitle: Subtitle) =>
+      addSubtitle: (subtitle: SubtitleData) =>
         set((state) => {
-          const exists = state.subtitle.some((s) => s.subtitle === subtitle.subtitle);
+          const exists = state.subtitle.some((s) => s.id === subtitle.id);
           if (exists) return state;
           return { subtitle: [...state.subtitle, subtitle] };
         }),
-      updateSubtitle: (subtitle: Subtitle) =>
+      updateSubtitle: (subtitle: SubtitleData) =>
         set((state) => ({
           subtitle: state.subtitle.map((s) =>
             s.id === subtitle.id ? subtitle : s

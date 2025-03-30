@@ -80,6 +80,8 @@ export type Lesson = {
     id: string;
     type: "subtitle";
     attributes: SubtitleAttributes;
+    cleanedSubtitle?: string;
+    image?:string
   };
   
   export type SubtitleAttributes = {
@@ -139,3 +141,14 @@ export type Lesson = {
     file_name: string;
   };
   
+
+  type MovieData = {
+    Title: string;
+    Year: string;
+    Genre: string;
+    Plot: string;
+    Poster: string;
+    imdbRating: string;
+    Response: string;
+    imdbID: string;
+  };

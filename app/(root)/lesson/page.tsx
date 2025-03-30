@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Trash2, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Lesson } from "@/type";
+import { Lesson, MovieData, SubtitleData } from "@/type";
 import { useSubtitleStore } from "@/store/subtitle.store";
 import { useLessonStore } from "@/store/lesson.store";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,7 @@ export default function SubtitleList() {
   const { addLesson } = useLessonStore((state) => state);
   const router = useRouter();
 
-  const handleGenerateLesson = async (subtitleItem: { id: string; name: string; image: string | null; subtitle: string; type: "movie" | "series" }) => {
+  const handleGenerateLesson = async (subtitleItem: SubtitleData) => {
     setLoadingSubtitleId(subtitleItem.id);
     setError(null);
 
@@ -85,7 +85,7 @@ export default function SubtitleList() {
             >
               <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-md border border-gray-300 dark:border-gray-600">
                 <CardHeader className="pb-2 pt-6">
-                  <h2 className="text-xl font-semibold text-center truncate">{subtitleItem.name}</h2>
+                  <h2 className="text-xl font-semibold text-center truncate">{subtitleItem?.attributes?.files[0]?.file_name}</h2>
                 </CardHeader>
                 <CardContent className="flex justify-center pb-4">
                   <div className="relative w-32 h-32 overflow-hidden rounded-lg">
@@ -94,7 +94,7 @@ export default function SubtitleList() {
                       fill
                       sizes="(max-width: 768px) 100vw, 128px"
                       style={{ objectFit: "cover" }}
-                      alt={`${subtitleItem.name} poster`}
+                      alt={`${'movie'} poster`}
                       className="transition-transform duration-300 hover:scale-105"
                     />
                   </div>
@@ -104,7 +104,7 @@ export default function SubtitleList() {
                     variant="destructive"
                     size="sm"
                     className="gap-1 px-4 py-2 rounded-lg bg-transparent text-stone-800 dark:text-stone-100 cursor-pointer"
-                    onClick={() => removeSubtitle(subtitleItem.name)}
+                    onClick={() => removeSubtitle(subtitleItem.id)}
                   >
                     <Trash2 className="h-4 w-4" />
                     Delete

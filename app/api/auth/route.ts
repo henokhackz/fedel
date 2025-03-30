@@ -4,9 +4,6 @@ export async function POST() {
   const username = process.env.USER_NAME;
   const password = process.env.PASSWORD;
 
-
-
-console.log(username, "🔑 Auth Username", password,'password UPDATED');
   if (!username || !password || !OPEN_SUBTITLES_API_KEY) {
     return new Response(JSON.stringify({ error: 'Missing credentials' }), { status: 400 });
   }
@@ -24,7 +21,7 @@ console.log(username, "🔑 Auth Username", password,'password UPDATED');
       }),
     });
 
-   console.log(response, "🔑 Auth Response");
+  
     if (!response.ok) {
       return new Response(JSON.stringify({ error: 'Authentication failed' }), { status: 401 });
     }
@@ -32,8 +29,7 @@ console.log(username, "🔑 Auth Username", password,'password UPDATED');
     const contentType = response.headers.get('Content-Type') || '';
     if (contentType.includes('application/json')) {
       const data = await response.json();
-      const token = data.token; // Assuming the token is in the JSON response
-      console.log(data, "🔑 Auth Token");
+      const token = data.token; 
       return new Response(JSON.stringify({ token }), { status: 200 });
     } else if (contentType.includes('text/html')) {
       const data = await response.json();

@@ -22,7 +22,7 @@ export function SearchBar() {
       className="flex w-full max-w-lg items-center space-x-3 px-4  border border-stone-200 dark:border-stone-800  h-[50px] rounded-full"
     >
       {/* Search Input */}
-      <input name="query" type="text" placeholder="search for your favorite movie or series" className="w-full h-full px-2 text-stone-800 outline-none placeholder:text-bg-none bg-none focus:outline-none focus:bg-none rounded-full"/>
+      <input name="query" required type="text" placeholder="search for your favorite movie or series" className="w-full h-full px-2 text-stone-800 outline-none placeholder:text-bg-none bg-none focus:outline-none focus:bg-none rounded-full"/>
       
       {/* Select Dropdown */}
       <Select onValueChange={(value) => setSelectedValue(value)} value={selectedValue}>
